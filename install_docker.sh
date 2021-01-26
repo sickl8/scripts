@@ -1,5 +1,5 @@
 brew update && brew upgrade
-mkdir -p /tmp/.isaadi-brew-locks
+mkdir -p /tmp/.$USER-brew-locks
 brew install docker && brew install docker-machine
 docker-machine create --driver virtualbox default
 docker-machine env default
