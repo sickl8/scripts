@@ -1,1 +1,16 @@
-mv $1 /goinfre/$USER/$(basename "$1") && ln -s /goinfre/$USER/$(basename "$1") $(dirname "$1")/$(basename "$1")
+if [ -z "$1" ] || [ "$#" -ne 1 ]
+then # bad
+	echo "Illegal number of arguments or 1st argument is empty"
+else # good
+	name="$(basename -- "$1")"
+	dir="$(dirname -- "$1")"
+	user=$(whoami)
+	echo "Removing \"/goinfre/$user/$name\"..."
+	rm -rf "/goinfre/$user/$name"
+	echo "Creating directory \"/goinfre/$user/$name\"..."
+	mkdir "/goinfre/$user/$name"
+	echo "Copying contents of \"$dir/$name/\" to \"/goinfre/$user/$name/\"..."
+	rsync -a "$dir/$name/" "/goinfre/$user/$name/"
+	echo "Removing \"$dir/$name/\" and making a symlinking it to \"/goinfre/$user/$name\""
+	rm -rf "$dir/$name/" && ln -s "/goinfre/$user/$name"/ "$dir/$name"
+fi
