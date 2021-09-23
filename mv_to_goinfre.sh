@@ -4,6 +4,9 @@ then # bad
 	echo "Usage:"
 	echo "      mv_to_goinfre.sh /path/to/folder"
 else # good
+	echo "DISCLAMER:"
+	echo "       You have to use fix_goinfre_links in the same manner if you switch your session!"
+	sleep 5
 	name="$(basename -- "$1")"
 	dir="$(dirname -- "$1")"
 	user=$(whoami)
