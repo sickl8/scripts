@@ -1,6 +1,8 @@
 if [ -z "$1" ] || [ "$#" -ne 1 ]
 then # bad
 	echo "Illegal number of arguments or 1st argument is empty"
+	echo "Usage:"
+	echo "      mv_to_goinfre.sh /path/to/folder"
 else # good
 	name="$(basename -- "$1")"
 	dir="$(dirname -- "$1")"
