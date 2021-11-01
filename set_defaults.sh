@@ -1,11 +1,11 @@
 #!/bin/bash
-defaults write -g ApplePressAndHoldEnabled -bool false
-defaults -currentHost write -g ApplePressAndHoldEnabled -bool false
-defaults write -g com.apple.swipescrolldirection -bool false
-defaults -currentHost write -g com.apple.swipescrolldirection -bool false
-defaults write -g com.apple.swipescrolldirection -bool false
-defaults -currentHost write -g com.apple.swipescrolldirection -bool false
-defaults write -g InitialKeyRepeat -int 10
-defaults -currentHost write -g KeyRepeat -int 1
-defaults write -g InitialKeyRepeat -int 10
-defaults -currentHost write -g KeyRepeat -int 1
+dfw () {
+	defaults write -g $*
+	defaults -currentHost write -g $*
+}
+
+dfw ApplePressAndHoldEnabled -bool false
+dfw com.apple.swipescrolldirection -bool false
+dfw InitialKeyRepeat -int 10
+dfw KeyRepeat -int 1
+dfw AppleInterfaceStyle -string Dark
