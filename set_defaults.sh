@@ -6,6 +6,6 @@ dfw () {
 
 dfw ApplePressAndHoldEnabled -bool false
 dfw com.apple.swipescrolldirection -bool false
-dfw InitialKeyRepeat -int 10
-dfw KeyRepeat -int 1
+dfw InitialKeyRepeat -int 15
+dfw KeyRepeat -int 2
 dfw AppleInterfaceStyle -string Dark
