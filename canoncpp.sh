@@ -5,7 +5,7 @@ function d8() {
 include="$(cat $1 | regex.py '#[^\S\n\r]*include[^\S\n\r]*\"(\w+.hpp)\"')"
 class_header="$(dirname $1)/""$include"
 class="$(cat $class_header | regex.py 'class[^\S\n\r]+([_a-zA-Z][0-9a-zA-Z]*)')"
-echo $class
+# echo $class
 # class="$(cat $1 | regex.py '#[^\S\n\r]*include[^\S\n\r]*"(\w+\.hpp)"')"
 tmp=/tmp/tmpfile
 tmp2=/tmp/tmpfile2
@@ -13,7 +13,7 @@ tab="$(cat $1 | regex.py '^([^\S\n\r]+)[^\n]*' - 0 | awk ' { if ( length > x ) {
 cat "$1" > $tmp
 function check() {
 	str="$(cat "$1" | regex.py "$2")"
-	echo "---------------------"
+	# echo "---------------------"
 	echo "$3"
 	if [ -z "$str" ];
 	then

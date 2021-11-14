@@ -4,8 +4,11 @@ import sys
 import re
 from sys import stdin
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 regex_str = sys.argv[1]
+
 regex = re.compile(regex_str, re.MULTILINE)
 
 txt = ""
