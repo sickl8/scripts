@@ -1,3 +1,3 @@
 # echo $1
 # echo $2
-regex.py '\w+\n* +'"$1"'\([^)]*\)\s*;' "$(man $2 $1 | col -bx)" | xargs echo
+man $2 $1 | col -bx | regex.py 'SYNOPSIS([\S\s]*)DESCRIPTION' - 0 | regex.py '\w+\s*\**\s*'"$1"'\([^\)]*\);'
