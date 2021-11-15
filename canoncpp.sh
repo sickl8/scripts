@@ -14,9 +14,9 @@ cat "$1" > $tmp
 function check() {
 	str="$(cat "$1" | regex.py "$2")"
 	# echo "---------------------"
-	echo "$3"
 	if [ -z "$str" ];
 	then
+		echo "$3"
 		# echo "empty string"
 		> $tmp2
 		cat "$tmp" >> $tmp2
