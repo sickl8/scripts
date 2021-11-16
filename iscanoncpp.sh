@@ -2,10 +2,9 @@
 function d8() {
 	date +%H:%M:%S\ %d/%m/%y
 }
-include="$(cat $1 | regex.py '#[^\S\n\r]*include[^\S\n\r]*\"(\w+.hpp)\"')"
+include="$(cat $1 | regex.py '#[^\S\n\r]*include[^\S\n\r]*\"(\w+.hpp)\"' | head -1)"
 class_header="$(dirname $1)/""$include"
-class="$(cat $class_header | regex.py 'class[^\S\n\r]+([_a-zA-Z][0-9a-zA-Z]*)')"
-# echo $class
+class="$(cat $class_header | regex.py 'class[^\S\n\r]\b(\w+)\b(?!\s*;)')"
 # class="$(cat $1 | regex.py '#[^\S\n\r]*include[^\S\n\r]*"(\w+\.hpp)"')"
 tmp=/tmp/tmpfile
 tmp2=/tmp/tmpfile2
