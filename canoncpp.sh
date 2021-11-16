@@ -21,7 +21,7 @@ function check() {
 		> $tmp2
 		cat "$tmp" >> $tmp2
 		echo >> $tmp2
-		echo "$3" >> $tmp2
+		echo -e "$3" >> $tmp2
 		cat $tmp2 > $tmp
 	# else
 	# 	echo "not an empty string"
@@ -29,16 +29,16 @@ function check() {
 }
 # assignment operation overload
 check "$1" ''$class'\s*&\s*'$class'\s*::\s*operator\s*=\s*\(((const +'$class'\s*&\s*)|('$class'(\s*&\s*const +| +const\s*&\s*)))[_a-zA-Z][0-9a-zA-Z]*\)' \
-$class"$(echo -n -e '\t')"\&$class'::operator=(const '$class' &ref) {}'
+$class"$(echo -n -e '\t')"\&$class'::operator=(const '$class' &ref) {\n\treturn *this;\n}'
 # copy constructor
 check "$1" ''$class'\s*::\s*'$class'\(((const +'$class'\s*&\s*)|('$class'(\s*&\s*const +| +const\s*&\s*)))([_a-zA-Z][0-9a-zA-Z]*)?\)' \
-$class'::'$class'(const '$class' &ref) {}'
+$class'::'$class'(const '$class' &ref) {\n\t\n}'
 # default deconstructor
 check "$1" $class'\s*::\s*''~\s*'$class'\(\s*\)' \
-$class'::~'$class'() {}'
+$class'::~'$class'() {\n\t\n}'
 # default constructor
 check "$1" $class'\s*::\s*'''$class'\(\s*\)' \
-"$class::$class"'() {}'
+"$class::$class"'() {\n\t\n}'
 
 suffix="$(d8 | tr ' ' _)"_"$(basename $1)"
 
