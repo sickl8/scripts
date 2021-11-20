@@ -13,6 +13,7 @@ cat "$1" > $tmp
 function check() {
 	str="$(cat "$1" | regex.py "$2")"
 	# echo "---------------------"
+	# echo "$2"
 	if [ -z "$str" ];
 	then
 		echo -e -n '\033[31;1m'
@@ -24,13 +25,13 @@ function check() {
 	fi
 }
 # assignment operation overload
-check "$1" ''$class'\s*&\s*'$class'\s*::\s*operator\s*=\s*\(((const +'$class'\s*&\s*)|('$class'(\s*&\s*const +| +const\s*&\s*)))[_a-zA-Z][0-9a-zA-Z]*\)'
+check "$1" ''"$class"'\s*&\s*'"$class"'\s*::\s*operator\s*=\s*\(\s*(('"$class"'\s*(const\s*&|& *const))|(const\s*'"$class"'\s*&))\s*([a-zA-Z_][a-zA-Z0-9]*)?\s*\)'
 # copy constructor
-check "$1" ''$class'\s*::\s*'$class'\(((const +'$class'\s*&\s*)|('$class'(\s*&\s*const +| +const\s*&\s*)))([_a-zA-Z][0-9a-zA-Z]*)?\)'
+check "$1" ''"$class"'\s*::\s*'$class'\(\s*(('"$class"'\s*(const\s*&|& *const))|(const\s*'"$class"'\s*&))\s*([a-zA-Z_][a-zA-Z0-9]*)?\s*\)'
 # default deconstructor
-check "$1" $class'\s*::\s*''~\s*'$class'\(\s*\)'
+check "$1" ''"$class"'\s*::\s*''~\s*'$class'\(\s*\)'
 # default constructor
-check "$1" $class'\s*::\s*'''$class'\(\s*\)'
+check "$1" ''"$class"'\s*::\s*'''$class'\(\s*\)'
 echo -e -n '\033[32;1m'
 echo "$1 is canonical"
 echo -e -n '\033[0m'

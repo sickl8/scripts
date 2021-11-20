@@ -24,16 +24,16 @@ function check() {
 	fi
 }
 # assignment operation overload
-check "$1" '[^\S\n\r]+('"$class"'[^\S\n\r]*&[^\S\n\r]*operator[^\S\n\r]*=[^\S\n\r]*\(((const +'"$class"'[^\S\n\r]*&[^\S\n\r]*)|('"$class"'([^\S\n\r]*&[^\S\n\r]*const +| +const[^\S\n\r]*&[^\S\n\r]*)))([_a-zA-Z][0-9a-zA-Z]*)?\);)' \
+check "$1" ''"$class"'\s*&\s*operator\s*=\s*\(\s*(('"$class"'\s*(const\s*&|& *const))|(const\s*'"$class"'\s*&))\s*([a-zA-Z_][a-zA-Z0-9]*)?\s*\)\s*;' \
 "$class""$(echo -n -e '\t')"'&operator=(const '"$class"' &ref);'
 # copy constructor
-check "$1" '[^\S\n\r]+('"$class"'\(((const +'"$class"'[^\S\n\r]*&[^\S\n\r]*)|('"$class"'([^\S\n\r]*&[^\S\n\r]*const +| +const[^\S\n\r]*&[^\S\n\r]*)))([_a-zA-Z][0-9a-zA-Z]*)?\)\;)' \
+check "$1" ''"$class"'\s*\(\s*(('"$class"'\s*(const\s*&|& *const))|(const\s*'"$class"'\s*&))\s*([a-zA-Z_][a-zA-Z0-9]*)?\s*\)\s*;' \
 "$class"'(const '"$class"' &ref);'
 # default deconstructor
-check "$1" '[^\S\n\r]+(~'"$class"'\(\);)' \
+check "$1" '(\s'"$class"'\s*\(\s*(void)?\)\s*;)' \
 '~'"$class"'();'
 # default constructor
-check "$1" '[^\S\n\r]+('"$class"'\(\);)' \
+check "$1" '(~'"$class"'\s*\(((\s*)|(void))\)\s*;)' \
 "$class"'();'
 
 suffix="$(d8 | tr ' ' _)"_"$(basename $1)"
