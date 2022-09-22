@@ -6,9 +6,7 @@ else
 	do
 		if [ "$(grep $1 $file)" ]
 		then
-			# echo '(^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*'"$1"'\n*\s+\*?\s*(\w+)\s*\([^0;{]+\)\s*\{)'
 			proto=$(cat $file | regex.py '(^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*\w+\n*\s+\*?\s*('$1')\s*\([^0;{]+\)\s*\{)' -)
-			# echo proto=$proto
 			if [ "$proto" ]
 			then
 				echo "$file:";
@@ -29,9 +27,7 @@ else
 					echo -e '}' >> $mock_file;
 					break;
 				fi
-				# cat $i | regex.py '(^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*\w+\n*\s+\*?\s*('"$1"')\s*\([^0;{]+\)\s*\{)' -
 			fi
 		fi
-		# echo "$i:"; cat $i | regex.py '(^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*'"$1"'\n*\s+\*?\s*(\w+)\s*\([^0;{]+\)\s*\{)' -
 	done
 fi
