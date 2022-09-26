@@ -26,13 +26,13 @@ else
 					if [ -z "$cmocka_headers" ]
 					then
 						echo 'cmocka headers in the correct order were not found, prepending them'
-						for i in '/* Headers required by cmocka (refer to cmocka.h) */' "#include <stdarg.h>" "#include <stddef.h>" "#include <setjmp.h>" "#include <stdint.h>" "#include <cmocka.h>"
+						for i in '\/\* Headers required by cmocka (refer to cmocka.h) \*\/' "#include <stdarg.h>" "#include <stddef.h>" "#include <setjmp.h>" "#include <stdint.h>" "#include <cmocka.h>"
 						do
-							sed -i '/'"$1"'/d' $mock_file 
+							sed -i '/'"$i"'/d' $mock_file 
 						done
 						printf '%s\n%s' "$(echo -e '/* Headers required by cmocka (refer to cmocka.h) */\n#include <stdarg.h>\n#include <stddef.h>\n#include <setjmp.h>\n#include <stdint.h>\n#include <cmocka.h>')" "$(cat $mock_file)" > $mock_file
 					fi
-					includes=$(cat $file | match_includes.sh)
+					includes=$(cat $file | match_includes.sh | tac)
 					# echo -e "includes=$includes"
 					IFS=$'\n'
 					for include in $includes
@@ -50,7 +50,8 @@ else
 						# echo "file=$file"
 						# echo "rt=$return_type"
 						wrap_proto=$(echo "$proto" | sed 's/'"$1"'/'__wrap_"$1"'/g')
-						echo -e '\n'"$wrap_proto" >> "$mock_file" ;
+						wrap_proto=$(echo "$proto" | sed 's/@brief.*$/'"@brief Mocked function for $1()"'/g')
+						echo -e '\n\n'"$wrap_proto" >> "$mock_file" ;
 						if [ "$return_type" != "void" ]
 						then
 							echo -e '\treturn ('"$return_type"')mock();' >> $mock_file;
