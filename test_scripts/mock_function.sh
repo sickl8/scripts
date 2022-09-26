@@ -49,8 +49,7 @@ else
 						return_type=$(cat $file | match_return_type.sh $1)
 						# echo "file=$file"
 						# echo "rt=$return_type"
-						wrap_proto=$(echo "$proto" | sed 's/'"$1"'/'__wrap_"$1"'/g')
-						wrap_proto=$(echo "$proto" | sed 's/@brief.*$/'"@brief Mocked function for $1()"'/g')
+						wrap_proto=$(echo "$proto" | sed 's/'"$1"'/'__wrap_"$1"'/g' | sed 's/@brief.*$/'"@brief Mocked function for $1()"'/g')
 						echo -e '\n\n'"$wrap_proto" >> "$mock_file" ;
 						if [ "$return_type" != "void" ]
 						then
