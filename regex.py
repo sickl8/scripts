@@ -9,6 +9,7 @@ def eprint(*args, **kwargs):
 
 regex_str = sys.argv[1]
 
+# eprint("regex_str=" + regex_str)
 regex = re.compile(regex_str, re.MULTILINE)
 
 txt = ""
