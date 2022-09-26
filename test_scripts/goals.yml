@@ -1,0 +1,34 @@
+goals:
+    1: DONE
+        - testing a ${target} c file:
+            - create skeleton files:
+                - create corresponding ${test_folder}
+                - create corresponding ${test_file} inside the test folder
+                - create CMakeLists.txt if it does not exist (copy it from tests/doc/)
+                - return (${test_folder} + ${test_file})
+    2: DONE
+        - mocking a ${target} c file:
+            - create skeletion files:
+                - create corresponding ${mock_folder}
+                - create corresponding ${mock_file} inside the mock folder if it doesnt exist.
+                - return (${mock_folder} + ${mock_file})
+    3:
+        - test a ${function} in a ${target} c file:
+            - exec(goal_1, ${target})
+            - get the ${body} of the ${function}
+            - get all the ${function_calls} from the ${body}
+            - for each ${function_call} from ${function_calls}:
+                - get ${function_name} from ${function_call}
+                - find C ${function_call_file} where ${function_name} is declared
+                - ${mock_file} = exec(goal_2, ${function_call_file})
+                - get ${wrap_function_name} by preappending "__wrap_" to ${function_name}
+                - if ${wrap_function_name} doesn' exist in any file:
+                  - get ${wrap_function_declaration} by appending "}" to the result of $${regex_exp} lookup in ${function_call_file} for the ${function_declaration}
+                  - append ${wrap_function_declarion} to ${mock_file}
+                - else:
+                  - noop
+                
+                  
+ https://github.com/gaulthiergain/parserClang
+
+ sudo python3 parserClang.py --output test --f ~/workspace/safety_control_unit/src/clamp/clamp_self_test.c
