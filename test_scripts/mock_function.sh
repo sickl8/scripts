@@ -3,7 +3,6 @@
 # regex_proto='^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*[_a-zA-Z][_a-zA-Z0-9]*\n*\s*\**\s*(\w+)\s*\([^;{]+\)\s*\{'
 # regex_proto_plus_doxygen='/\*((?!\*/)[\s\S])*\*/\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*[_a-zA-Z][_a-zA-Z0-9]*\n*\s*\**\s*(\w+)\s*\([^;{]+\)\s*\{'
 
-
 if [ -z "$1" ]
 then
 	echo "No arguments were given"
@@ -46,7 +45,7 @@ else
 					unset IFS
 					if [ -z "$(cat $mock_file | match_proto.sh $1)" ]
 					then
-						return_type=$(cat $file | match_return_type.sh $1)
+						return_type=$(cat $file | match_return_type.sh $1 | sed 's/\s//g')
 						# echo "file=$file"
 						# echo "rt=$return_type"
 						wrap_proto=$(echo "$proto" | sed 's/'"$1"'/'__wrap_"$1"'/g' | sed 's/@brief.*$/'"@brief Mocked function for $1()"'/g')
