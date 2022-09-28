@@ -1,0 +1,1 @@
+code $(findhere.sh "$1")
