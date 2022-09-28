@@ -5,7 +5,6 @@ else
 	filename=$(basename -- "$1")
 	extension="${filename##*.}"
 	basefilename="${filename%.*}"
-
 	listfiles=$(findhere.sh "$filename")
 	chosenfilepath=""
 	if [ -z "$listfiles" ]

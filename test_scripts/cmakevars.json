@@ -1,0 +1,7 @@
+{
+    "SAFETY_CONTROL_UNIT_HOME":".",
+    "SAFETY_CONTROL_UNIT_LWIP":"./middleware/lwip",
+    "SAFETY_CONTROL_UNIT_MOCKS_FOLDER":"./tests/test_utils/mocks",
+    "SAFETY_CONTROL_UNIT_FAKES_FOLDER":"./tests/test_utils/fakes",
+    "SAFETY_CONTROL_UNIT_COMMON":"./submodules/safety_control_unit_common"
+}
