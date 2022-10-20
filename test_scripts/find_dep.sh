@@ -3,7 +3,7 @@ if [ -z "$1" ]
 then
     echo >&2 "$(basename -- $0): No argument supplied"
 else
-    errors=$(/usr/bin/cmake --build /home/anouar/workspace/safety_control_unit/build --config Debug --target $1 -j 10 -- 2>&1 | regex.py '#include\s+[<"](\S+)[>"]' | awk 'NR==1')
+    errors=$(/usr/bin/cmake --build /home/$USER/workspace/safety_control_unit/build --config Debug --target $1 -j 10 -- 2>&1 | regex.py '#include\s+[<"](\S+)[>"]' | awk 'NR==1')
 fi
 
 if [ -z "$errors" ]

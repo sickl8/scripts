@@ -13,12 +13,12 @@ if (int(input()) == 1):
     file.close()
     header_full_path=str(input())
     source_full_path=str(input())
-    
+
     header=header_full_path.split('/')
     header_name=header[-1]
     header.pop(len(header)-1)
     header_path="/".join(header)
-    
+
     source=source_full_path.split('/')
     source_name=source[-1]
     source.pop(len(source)-1)
