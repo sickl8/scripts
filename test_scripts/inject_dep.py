@@ -74,6 +74,9 @@ def add_to_cmakelistfile(filepath, include_line):
     return '\n'.join(lines)
 
 res = get_cmake_definition(include_path)
-res = sorted(res, key=len)
-new_buf = add_to_cmakelistfile(cmake_file, res[0])
-save_file(cmake_file, new_buf)
+if len(res):
+    res = sorted(res, key=len)
+    new_buf = add_to_cmakelistfile(cmake_file, res[0])
+    save_file(cmake_file, new_buf)
+else:
+    print("no defintion found for :", header_name)

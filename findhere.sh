@@ -1,1 +1,1 @@
-find . -name "$1"
+find . -wholename "*/$1"

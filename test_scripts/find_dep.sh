@@ -21,6 +21,7 @@ else
 	c_test_filepaths=$(findhere.sh "$c_test_filename")
 	chosen_c_test_file=""
 
+	echo >&2 $errors
 	if [ -z "$listfiles" ]
 	then
 		echo >&2"$(basename -- $0): $include_definition: No such file or directory"
