@@ -3,7 +3,13 @@ if [ -z "$1" ]
 then
     echo >&2 "$(basename -- $0): No argument supplied"
 else
-    errors=$(/usr/bin/cmake --build /home/anouar/workspace/safety_control_unit/build --config Debug --target $1 -j 10 -- 2>&1 | regex.py '#include\s+[<"](\S+)[>"]' | awk 'NR==1')
+	current_path=$(pwd)
+    errors=$(/usr/bin/cmake --build $current_path/build --config Debug --target $1 -j 10 -- 2>&1 | regex.py '#include\s+[<"](\S+)[>"]' | awk 'NR==1')
+	if [ -z "$errors" ]
+	then
+		echo >&2 "No include errors found on cmakelist build"
+		exit 0
+	fi
 fi
 
 if [ -z "$errors" ]
@@ -13,7 +19,6 @@ else
 	echo 1
 	include_definition=$errors
 	extension="${include_definition##*.}"
-	baseinclude_definition="${include_definition%.*}"
 	listfiles=$(findhere.sh "$include_definition")
 	chosenfilepath=""
 
@@ -30,7 +35,7 @@ else
 			echo >&2 "---> Multiple candidates for \"$include_definition\", please choose one:"
 			select i in $listfiles; do chosenfilepath=$i; break; done
 		else
-			chosenfilepath=$listfiles
+			chosenincludefilepath=$listfiles
 		fi
 	fi
 
@@ -46,6 +51,7 @@ else
 		fi
 	fi
 	echo $HOME
-	echo $chosenfilepath
+	echo $include_definition
+	echo $chosenincludefilepath
 	echo $chosen_c_test_file
 fi
