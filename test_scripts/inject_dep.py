@@ -88,7 +88,6 @@ def add_to_cmakelistfile(filepath, include_line):
 res = get_cmake_definition(include_path)
 if len(res):
     res = sorted(res, key=len)
-    print(res)
     new_buf = add_to_cmakelistfile(cmake_file, res[0])
     if new_buf is not None:
         save_file(cmake_file, new_buf)
