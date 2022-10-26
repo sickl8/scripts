@@ -7,8 +7,8 @@ import sys
 
 from pyparsing import line
 
-
-if (int(input()) == 1):
+responce = int(input())
+if (responce == 1):
     home = str(input())
     include_defintion = str(input()) 
     header_full_path = str(input())
@@ -29,7 +29,7 @@ if (int(input()) == 1):
 
     cmake_file_old_path=source_path+"/.old"
 else:
-    sys.exit('no errors')
+    sys.exit()
 include_path = header_path
 old_cmake_file = cmake_file_old_path+'/'+datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")+'CMakeLists.txt'
 cmake_file = source_path+'/CMakeLists.txt'

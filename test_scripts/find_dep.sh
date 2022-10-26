@@ -8,13 +8,13 @@ else
 	if [ -z "$errors" ]
 	then
 		echo >&2 "No include errors found on cmakelist build"
-		exit 0
 	fi
 fi
 
 if [ -z "$errors" ]
 then
 	echo 0
+	exit 0
 else
 	echo 1
 	include_definition=$errors
