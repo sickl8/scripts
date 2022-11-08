@@ -26,7 +26,8 @@ else
 	c_test_filepaths=$(findhere.sh "$c_test_filename")
 	chosen_c_test_file=""
 
-	echo >&2 $errors
+
+	# Check for< Test_*.c file or multiple files with same name
 	if [ -z "$listfiles" ]
 	then
 		echo >&2"$(basename -- $0): $include_definition: No such file or directory"
@@ -39,6 +40,7 @@ else
 		fi
 	fi
 
+	# Check for missing Test_*.c file or multiple files with same name
 	if [ -z "$c_test_filepaths" ]
 	then
 		echo >&2 "$(basename -- $0): $c_test_filepaths: No such file or directory"
@@ -50,8 +52,14 @@ else
 			chosen_c_test_file=$c_test_filepaths
 		fi
 	fi
-	echo $HOME
-	echo $include_definition
-	echo $chosenincludefilepath
-	echo $chosen_c_test_file
+	if [ -nz "$HOME" && -nz "$include_definition" && -nz "$chosenincludefilepath" && -nz "$chosen_c_test_file"]
+	then
+		echo $HOME
+		echo $include_definition
+		echo $chosenincludefilepath
+		echo $chosen_c_test_file
+	else
+		echo >&2 "Could not find definition to:$include_definition"
+		echo "Error"
+	fi
 fi
