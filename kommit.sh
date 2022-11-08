@@ -1,0 +1,1 @@
+git commit -m $(git status | regex.py 'On branch \w+/(KOR-\w+)')": $1"
