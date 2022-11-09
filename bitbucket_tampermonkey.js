@@ -1,3 +1,14 @@
+// ==UserScript==
+// @name         New Userscript
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://bitbucket.kinovaapps.com/projects/SCU/repos/safety_control_unit/pull-requests/*/overview*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=kinovaapps.com
+// @grant        none
+// ==/UserScript==
+
 (function() {
     'use strict';
     let absolute_path_to_scu_folder = "/home/sickl8/workspace/safety_control_unit/"
