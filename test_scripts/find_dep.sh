@@ -36,7 +36,7 @@ else
 			echo >&2 "---> Multiple candidates for \"$include_definition\", please choose one:"
 			select i in $listfiles; do chosenfilepath=$i; break; done
 		else
-			chosenincludefilepath=$listfiles
+			chosenfilepath=$listfiles
 		fi
 	fi
 
@@ -52,13 +52,17 @@ else
 			chosen_c_test_file=$c_test_filepaths
 		fi
 	fi
-	if [ -nz "$HOME" && -nz "$include_definition" && -nz "$chosenincludefilepath" && -nz "$chosen_c_test_file"]
+	if [[ ! -z "$HOME" ]] && [[ ! -z "$include_definition" ]] && [[ ! -z "$chosenfilepath" ]] && [[ ! -z "$chosen_c_test_file" ]]
 	then
 		echo $HOME
 		echo $include_definition
-		echo $chosenincludefilepath
+		echo $chosenfilepath
 		echo $chosen_c_test_file
 	else
+		echo >&2 "HOME=$HOME"
+		echo >&2 "include_definition=$include_definition"
+		echo >&2 "chosenfilepath=$chosenfilepath"
+		echo >&2 "chosen_c_test_file=$chosen_c_test_file"
 		echo >&2 "Could not find definition to:$include_definition"
 		echo "Error"
 	fi

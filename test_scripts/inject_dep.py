@@ -65,6 +65,7 @@ def add_to_cmakelistfile(filepath, include_line):
             return None
         line_id = -1
         target = source_name.split('.')[0].replace('test_', '')
+        target = "add_mocked_test(" + target
         target_found = False
         include_found = False
         for index in range(len(lines)):
