@@ -9,9 +9,11 @@
 // @grant        none
 // ==/UserScript==
 
+
 (function() {
-    'use strict';
-    let absolute_path_to_scu_folder = "/home/sickl8/workspace/safety_control_unit/"
+	'use strict';
+	let absolute_path_to_scu_folder = "/home/sickl8/workspace/safety_control_unit/"
+	
     if (absolute_path_to_scu_folder[0] != "/") {
         absolute_path_to_scu_folder = "/" + absolute_path_to_scu_folder
     }
