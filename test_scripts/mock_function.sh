@@ -1,4 +1,4 @@
-# 
+#
 # TODO: add wrapped function name to MOCKS in add_mocked_test() in the corresponding CMakeLists.txt
 # regex_proto='^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*[_a-zA-Z][_a-zA-Z0-9]*\n*\s*\**\s*(\w+)\s*\([^;{]+\)\s*\{'
 # regex_proto_plus_doxygen='/\*((?!\*/)[\s\S])*\*/\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*[_a-zA-Z][_a-zA-Z0-9]*\n*\s*\**\s*(\w+)\s*\([^;{]+\)\s*\{'
@@ -27,7 +27,7 @@ else
 						echo 'cmocka headers in the correct order were not found, prepending them'
 						for i in '\/\* Headers required by cmocka (refer to cmocka.h) \*\/' "#include <stdarg.h>" "#include <stddef.h>" "#include <setjmp.h>" "#include <stdint.h>" "#include <cmocka.h>"
 						do
-							sed -i '/'"$i"'/d' $mock_file 
+							sed -i '/'"$i"'/d' $mock_file
 						done
 						printf '%s\n%s' "$(echo -e '/* Headers required by cmocka (refer to cmocka.h) */\n#include <stdarg.h>\n#include <stddef.h>\n#include <setjmp.h>\n#include <stdint.h>\n#include <cmocka.h>')" "$(cat $mock_file)" > $mock_file
 					fi
@@ -48,11 +48,11 @@ else
 						return_type=$(cat $file | match_return_type.sh $1 | sed 's/\s//g')
 						# echo "file=$file"
 						# echo "rt=$return_type"
-						wrap_proto=$(echo "$proto" | sed 's/'"$1"'/'__wrap_"$1"'/g' | sed 's/@brief.*$/'"@brief Mocked function for $1()"'/g')
+						wrap_proto=$(echo "$proto" | sed 's/'"$1"'/'__wrap_"$1"'/g' | sed 's/@brief.*$/'"@brief Mocked function for @ref $1()"'/g')
 						echo -e '\n\n'"$wrap_proto" >> "$mock_file" ;
 						if [ "$return_type" != "void" ]
 						then
-							echo -e '\treturn ('"$return_type"')mock();' >> $mock_file;
+							echo -e '    return ('"$return_type"')mock();' >> $mock_file;
 						else
 							echo >> $mock_file;
 						fi
