@@ -18,9 +18,6 @@ else
 				mock_file=$(create_mock_file.sh "$file");
 				if [ "$mock_file" ]
 				then
-					# echo -------------------
-					# cat $mock_file | match_proto.sh $1
-					# echo -------------------
 					cmocka_headers=$(cat $mock_file | match_cmocka_headers.sh)
 					if [ -z "$cmocka_headers" ]
 					then
@@ -29,21 +26,39 @@ else
 						do
 							sed -i '/'"$i"'/d' $mock_file
 						done
-						printf '%s\n%s' "$(echo -e '/* Headers required by cmocka (refer to cmocka.h) */\n#include <stdarg.h>\n#include <stddef.h>\n#include <setjmp.h>\n#include <stdint.h>\n#include <cmocka.h>')" "$(cat $mock_file)" > $mock_file
+						file_header=$(cat $mock_file | regex.py '(^(?<![\s\S\r])/\*((?!\*/)[\s\S])*\*/)' - f)
+						file_header_nlines=$(cat $mock_file | regex.py '(^(?<![\s\S\r])/\*((?!\*/)[\s\S])*\*/)' - f | wc -l | xargs echo)
+						mock_file_wo_header=$(cat $mock_file | sed '1,'"$file_header_nlines"d)
+						mock_file_wo_header=$(printf '%s\n%s' "$(echo -e '/* Headers required by cmocka (refer to cmocka.h) */\n#include <stdarg.h>\n#include <stddef.h>\n#include <setjmp.h>\n#include <stdint.h>\n#include <cmocka.h>')" "$(echo "$mock_file_wo_header")")
+						echo "$file_header" > "$mock_file"
+						echo >> "$mock_file"
+						echo "$mock_file_wo_header" >> "$mock_file"
 					fi
-					includes=$(cat $file | match_includes.sh | tac)
-					# echo -e "includes=$includes"
-					IFS=$'\n'
-					for include in $includes
-					do
-						if [ -z "$(cat $mock_file | grep "$include")" ]
-						then
-							echo "$include was not found, prepending it"
-							printf '%s\n%s' "$include" "$(cat $mock_file)" > $mock_file
-						fi
-					done
-					unset IFS
-					if [ -z "$(cat $mock_file | match_proto.sh $1)" ]
+
+
+					# include all headers from source file to mock file
+					if [ "$2" = "-i" ]
+					then
+						cmocka_headers=$(cat $mock_file | match_cmocka_headers.sh)
+						file_header=$(cat $mock_file | regex.py '(^(?<![\s\S\r])/\*((?!\*/)[\s\S])*\*/)' - f)
+						file_header_nlines=$(cat $mock_file | regex.py '(^(?<![\s\S\r])/\*((?!\*/)[\s\S])*\*/)' - f | wc -l | xargs echo)
+						mock_file_wo_header=$(cat $mock_file | sed '1,'"$file_header_nlines"d)
+						includes=$(cat $file | match_includes.sh | tac)
+						IFS=$'\n'
+						for include in $includes
+						do
+							if [ -z "$(echo "$mock_file_wo_header" | grep "$include")" ]
+							then
+								echo "$include was not found, prepending it"
+								mock_file_wo_header=$(printf '%s\n%s' "$include" "$(echo "$mock_file_wo_header")")
+							fi
+						done
+						echo "$file_header" > "$mock_file"
+						echo "$mock_file_wo_header" >> "$mock_file"
+						unset IFS
+					fi
+
+					if [ -z "$(cat $mock_file | match_proto.sh __wrap_"$1")" ]
 					then
 						return_type=$(cat $file | match_return_type.sh $1 | sed 's/\s//g')
 						# echo "file=$file"
