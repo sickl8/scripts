@@ -64,21 +64,27 @@
         }
         let title = document.getElementsByClassName("ref-lozenge-content")[0]
 		if (title) {
-			window.history.pushState(window.history.state, document.title, window.location.pathname + "?KOR=" + encodeURI(title.textContent).replace(/%[0-9a-fA-F][0-9a-fA-F]/g, "-"));
+			window.history.pushState(window.history.state, document.title, window.location.pathname + "?" + encodeURI(title.textContent.match(/KOR-\d+/)[0]));
+			let container = document.createElement("div")
 			let branchName = document.createElement("p")
+			container.style.position = "fixed"
+			container.style.display = "flex"
+			container.style.justifyContent = "center"
+			container.style.zIndex = 5
+			container.style.top = 0
+			container.style.left = "50%"
+			container.style.width = 0
 			branchName.innerText = title.textContent.match(/KOR-\d+/)[0]
-			branchName.style.position = "fixed"
-			branchName.style.top = 0
-			branchName.style.left = "50%"
+			branchName.style.whiteSpace = "nowrap"
 			branchName.style.margin = 0
 			branchName.style.padding = 0
 			branchName.style.paddingInline = "5px"
 			branchName.style.borderBottomLeftRadius = "3px"
 			branchName.style.borderBottomRightRadius = "3px"
-			branchName.style.zIndex = 5
 			branchName.style.backgroundColor = "white"
 			branchName.style.boxShadow = "0px 0px 16px #000"
-			document.body.appendChild(branchName)
+			container.appendChild(branchName);
+			document.body.appendChild(container)
 		}
     }, 1000)
     // Your code here...
