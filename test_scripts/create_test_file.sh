@@ -8,7 +8,7 @@ else
 	listfiles=$(findhere.sh "$filename")
 	chosenfilepath=""
 	if [ -z "$listfiles" ]
-	then 
+	then
 		echo "$(basename -- $0): $1: No such file or directory"
 	else
 		if (( $(grep -c . <<<"$listfiles") > 1 )); then
@@ -24,9 +24,11 @@ else
 		echo >&2 "$path"
 		echo "$path"
 		mkdir -p $(dirname -- $path)
-		touch "$path"
-		cmakelistemplate=tests/doc/template
+
+		CMAKELISTEMPLATE=tests/doc/template
+
+		cat $CMAKELISTEMPLATE/test_template.c | sed 's/test_template/'"test_$basefilename"'/g' >> "$path"
 		echo >> $(dirname -- $path)/CMakeLists.txt
-		cat $cmakelistemplate/CMakeLists.txt | sed 's/template/'"$basefilename"'/g' >> $(dirname -- $path)/CMakeLists.txt
+		cat $CMAKELISTEMPLATE/CMakeLists.txt | sed 's/template/'"$basefilename"'/g' | sed 's/TEMPLATE/'"${basefilename^^}"'/g' | sed 's#/src_file.c#'"${chosenfilepath:1}"'#'>> $(dirname -- $path)/CMakeLists.txt
 	fi
 fi
