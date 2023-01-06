@@ -11,8 +11,8 @@
 
 
 (function() {
-	'use strict';
-	let absolute_path_to_scu_folder = "/home/sickl8/workspace/safety_control_unit/"
+    'use strict';
+    let absolute_path_to_scu_folder = "/home/sickl8/workspace/safety_control_unit/"
 
     if (absolute_path_to_scu_folder[0] != "/") {
         absolute_path_to_scu_folder = "/" + absolute_path_to_scu_folder
@@ -29,9 +29,13 @@
             if (el.textContent) {
                 let linenum = undefined
 				try {
-					linenum = el.parentElement?.parentElement?.parentElement?.
+					let target_el = el.parentElement?.parentElement?.parentElement?.
 									getElementsByClassName("additional-line-content")[0].
-									parentElement?.parentElement?.firstChild?.firstChild?.innerText.match(/\d+/)[0];
+									parentElement?.parentElement?.firstChild?.firstChild;
+                    // console.log({innertext: target_el?.innerText});
+                    let matches = target_el?.innerText.match(/\d+/g);
+                    // console.log({matches});
+                    linenum = matches[1] || matches[0];
 				} catch {}
                 el.appendChild(document.createElement("br"))
                 let a = document.createElement("a");
