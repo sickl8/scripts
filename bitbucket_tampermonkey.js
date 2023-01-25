@@ -55,6 +55,13 @@ const observer = new MutationObserver((mutations, observer) => {
 	})
 	let title = document.getElementsByClassName("ref-lozenge-content")[0]
 	if (title && !document.getElementById("theKOR")) {
+		let copyBranchIcon = document.createElement("span");
+		copyBranchIcon.innerText = " 📋";
+		copyBranchIcon.onclick = () => {
+			navigator.clipboard.writeText(title.children[0].textContent);
+			// alert("Copied!");
+		}
+		title.appendChild(copyBranchIcon);
 		window.history.pushState(window.history.state, document.title, window.location.pathname + "?" + encodeURI(title.textContent.match(/KOR-\d+/)[0]));
 		let container = document.createElement("div")
 		let branchName = document.createElement("p")

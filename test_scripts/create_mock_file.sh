@@ -1,6 +1,12 @@
+# This script only creates mock files for SCU, haven't worked on armbase yet to adapt the script to it
+print_usage() {
+    echo "$(basename -- $0): No argument supplied" >&2
+    echo -e "\tUsage:\n\t\t$(basename -- $0) <file_name>.c" >&2
+}
+
 if [ -z "$1" ]
 then
-    echo "$(basename -- $0): No argument supplied"
+	print_usage
 else
 	filename=$(basename -- "$1")
 	extension="${filename##*.}"
@@ -9,7 +15,7 @@ else
 	listfiles=$(findhere.sh "$filename")
 	chosenfilepath=""
 	if [ -z "$listfiles" ]
-	then 
+	then
 		echo "$(basename -- $0): $1: No such file or directory"
 	else
 		if (( $(grep -c . <<<"$listfiles") > 1 )); then

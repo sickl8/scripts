@@ -1,7 +1,12 @@
+# This script only creates mock files for SCU, haven't worked on armbase yet to adapt the script to it
+print_usage() {
+    echo "$(basename -- $0): No argument supplied" >&2
+    echo -e "\tUsage:\n\t\t$(basename -- $0) <cmake_test_target>" >&2
+}
 
 if [ -z "$1" ]
 then
-    echo >&2 "$(basename -- $0): No argument supplied"
+	print_usage
 else
 	current_path=$(pwd)
     errors=$(/usr/bin/cmake --build $current_path/build --config Debug --target $1 -j 10 -- 2>&1 | regex.py '#include\s+[<"](\S+)[>"]' | awk 'NR==1')

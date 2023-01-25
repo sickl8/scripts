@@ -3,9 +3,15 @@
 # regex_proto='^\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*[_a-zA-Z][_a-zA-Z0-9]*\n*\s*\**\s*(\w+)\s*\([^;{]+\)\s*\{'
 # regex_proto_plus_doxygen='/\*((?!\*/)[\s\S])*\*/\s*(?:(?:inline|static)\s+){0,2}(?!else|typedef|return)\n*[_a-zA-Z][_a-zA-Z0-9]*\n*\s*\**\s*(\w+)\s*\([^;{]+\)\s*\{'
 
+print_usage() {
+    echo "$(basename -- $0): No argument supplied" >&2
+    echo -e "Create mock function in the corresponding file path where <function_name> is declared" >&2
+    echo -e "\n\tUsage:\n\t\t$(basename -- $0) <function_name>" >&2
+}
+
 if [ -z "$1" ]
 then
-	echo "No arguments were given"
+	print_usage
 else
 	for file in $(find . -name '*.c')
 	do
