@@ -2,7 +2,7 @@
 
 set TEST_NAME [lindex $argv 0]
 spawn ./build-docker-armbase.sh -i
-expect "armbase_fw3$ "
+expect "machine-user@"
 send -- "cd build_cobot_x86_debug/\r"
 expect "build_cobot_x86_debug$ "
 send -- "ctest -R $TEST_NAME\r"
