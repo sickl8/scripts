@@ -5,17 +5,29 @@
 // @description  try to take over the world!
 // @author       You
 // @run-at       document-start
-// @match        https://bitbucket.kinovaapps.com/projects/SCU/repos/*/pull-requests/*/overview*
+// @match        https://bitbucket.kinovaapps.com/projects/*/repos/*/pull-requests/*/overview*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=kinovaapps.com
 // @grant        none
 // ==/UserScript==
 
-let absolute_path_to_scu_folder = "/home/sickl8/workspace/safety_control_unit/"
-if (absolute_path_to_scu_folder[0] != "/") {
-	absolute_path_to_scu_folder = "/" + absolute_path_to_scu_folder
+let repo_map = {
+	"SCU": {
+		"safety_control_unit": "safety_control_unit"
+	},
+	"ROB0006": {
+		"armbase_fw3": "armbase_fw3"
+	}
 }
-if (absolute_path_to_scu_folder[absolute_path_to_scu_folder.length - 1] != "/") {
-	absolute_path_to_scu_folder += "/"
+
+let project = window.location.href.match(/projects\/(\w+)/)[1];
+let repo = window.location.href.match(/repos\/(\w+)/)[1];
+
+let absolute_path_to_repo_folder = `/home/sickl8/workspace/${repo_map[project][repo]}/`
+if (absolute_path_to_repo_folder[0] != "/") {
+	absolute_path_to_repo_folder = "/" + absolute_path_to_repo_folder
+}
+if (absolute_path_to_repo_folder[absolute_path_to_repo_folder.length - 1] != "/") {
+	absolute_path_to_repo_folder += "/"
 }
 
 const observer = new MutationObserver((mutations, observer) => {
@@ -35,7 +47,7 @@ const observer = new MutationObserver((mutations, observer) => {
 				if (!actNodeHeader) { return }
 				actNodeHeader.appendChild(document.createElement("br"))
 				let vscodeAnchorLink = document.createElement("a");
-				let vscodelink = `vscode://file${absolute_path_to_scu_folder}${actNodeHeader.textContent}${linenum ? ":" + linenum: ""}`
+				let vscodelink = `vscode://file${absolute_path_to_repo_folder}${actNodeHeader.textContent}${linenum ? ":" + linenum: ""}`
 				vscodeAnchorLink.innerText = `${actNodeHeader.textContent}${linenum ? ":" + linenum: ""}`;
 				vscodeAnchorLink.href = vscodelink;
 				actNodeHeader.appendChild(vscodeAnchorLink);
@@ -43,7 +55,7 @@ const observer = new MutationObserver((mutations, observer) => {
 				[...actNode.getElementsByTagName("code")].forEach(code => {
 					if (code.innerText && code.innerText.includes("/")) {
 						let hr = document.createElement("a")
-						let vscodelink = `vscode://file${absolute_path_to_scu_folder}${code.innerText}`
+						let vscodelink = `vscode://file${absolute_path_to_repo_folder}${code.innerText}`
 						hr.href = vscodelink
 						hr.innerText = "🔗"
 						hr.style.fontSize = "10px"
