@@ -23,6 +23,7 @@ if { $DEBUG == 1 } {
     send -- "gdbgui -r --args ./build_cobot_x86_debug/bin/armbaseUnitTest --gtest_filter=$TEST_NAME\r";
     expect "100%";
 } else {
+    set timeout -1;
     set TEST_NAME [lindex $argv 0];
     spawn ./build-docker-armbase.sh -i;
     expect "machine-user@";
