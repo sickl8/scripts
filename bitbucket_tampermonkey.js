@@ -16,11 +16,19 @@ let repo_map = {
 	},
 	"ROB0006": {
 		"armbase_fw3": "armbase_fw3"
+	},
+	"AC": {
+		"actuators_nextgen": "actuators_nextgen"
 	}
 }
 
 let project = window.location.href.match(/projects\/(\w+)/)[1];
 let repo = window.location.href.match(/repos\/(\w+)/)[1];
+
+if (repo_map[project] == undefined)
+	repo_map[project] = {};
+if (repo_map[project][repo] == undefined)
+	repo_map[project][repo] = repo;
 
 let absolute_path_to_repo_folder = `/home/sickl8/workspace/${repo_map[project][repo]}/`
 if (absolute_path_to_repo_folder[0] != "/") {
@@ -46,11 +54,21 @@ const observer = new MutationObserver((mutations, observer) => {
 				let actNodeHeader = actNode.getElementsByClassName("file-breadcrumbs")[0];
 				if (!actNodeHeader) { return }
 				actNodeHeader.appendChild(document.createElement("br"))
+				let vscodeDiv = document.createElement("div");
+				vscodeDiv.style.cssText = "display: flex; gap: 5px; align-items: center; transform: translateX(-20px)";
+				let vscodeIcon = document.createElement("img");
+				vscodeIcon.src = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png";
+				vscodeIcon.style.display = "inline";
+				vscodeIcon.style.width = "15px";
+				vscodeIcon.style.height = "15px";
 				let vscodeAnchorLink = document.createElement("a");
+				vscodeAnchorLink.style.display = "inline";
 				let vscodelink = `vscode://file${absolute_path_to_repo_folder}${actNodeHeader.textContent}${linenum ? ":" + linenum: ""}`
 				vscodeAnchorLink.innerText = `${actNodeHeader.textContent}${linenum ? ":" + linenum: ""}`;
 				vscodeAnchorLink.href = vscodelink;
-				actNodeHeader.appendChild(vscodeAnchorLink);
+				vscodeDiv.appendChild(vscodeIcon);
+				vscodeDiv.appendChild(vscodeAnchorLink);
+				actNodeHeader.appendChild(vscodeDiv);
 
 				[...actNode.getElementsByTagName("code")].forEach(code => {
 					if (code.innerText && code.innerText.includes("/")) {
