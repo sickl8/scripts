@@ -1,0 +1,27 @@
+#!/bin/bash
+date > $HOME/.scripts/log
+max="17"
+min="12"
+while true;
+do
+	while ! [ $(ps aux | grep "ft_lock" | grep -v grep | awk '{print $2}') ];
+	do
+		echo "w" >> $HOME/.scripts/log
+		/usr/local/bin/ft_lock
+		sleep 0.25
+	done
+	save=$(date +%s)
+	mts=$(echo "$RANDOM % ($max - $min + 1) + $min" | bc)
+	comp=$(echo "60 * $mts + $save" | bc)
+	echo "b $mts" >> $HOME/.scripts/log
+	while [ $(date +%s) -lt $comp ];
+	do
+		sleep 0.125
+		if ! [ $(ps aux | grep "ft_lock" | grep -v grep | awk '{print $2}') ];
+		then
+			clear
+			exit
+		fi
+	done
+	kill -9 $(ps aux | grep "ft_lock" | grep -v grep | awk '{print $2}')
+done
